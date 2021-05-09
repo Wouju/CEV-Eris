@@ -103,49 +103,15 @@
 	if(!places_to_spawn.len)
 		places_to_spawn.Add(get_turf(master))
 
-	var/mob/living/simple_animal/hostile/hivemind/champion
-	var/list/champ_names = list()
-	var/champion_path
-	var/amount = 1
-
-	var/squad = pick("defiler", "twins", "zeus", "swarm", "tyrant")
-	switch(squad)
-		if("defiler")
-			champion_path = /mob/living/simple_animal/hostile/hivemind/mechiver
-			champ_names += "Defiler"
-		if("twins")
-			champ_names = list("Twin Alpha", "Twin Beta", "Twin Gamma")
-			amount = 3
-			champion_path = /mob/living/simple_animal/hostile/hivemind/himan
-		if("zeus")
-			champ_names = list("Zeus", "Thor")
-			champion_path = /mob/living/simple_animal/hostile/hivemind/hiborg
-			amount = 2
-		if("swarm")
-			champ_names = list("Swarmer Slicer", "Swarmer Destroyer", "Swarmer Annihilater", "Swarmer Stinger", "Swarmer Cutter", "Swarmer Dicer")
-			amount = 6
-			champion_path = /mob/living/simple_animal/hostile/hivemind/stinger
-		if("tyrant")
-			champion_path = /mob/living/simple_animal/hostile/megafauna/hivemind_tyrant
-		//Death of the tyrant = death of the hive. Players wont have to chase a bunch of nodes all over the ship around.
-		//Although this would be a problem if the players go after a undefended node, said node spawns the tyrant, tyrant dies, entire hive dies.
-		//Would be better if we could apply the death effect of the tyrant to the spawned champions.
-		//So for now, It has a chance of showing up
-	for(var/i = 1 to amount)
-		var/turf/spawn_loc = pick(places_to_spawn)
-		champion = new champion_path(spawn_loc)
-		champion.adjustMaxHealth(150)
-		champion.health += 150
-		champion.malfunction_chance = 0
-		champion.name = "Champion "
-		if(i > champ_names.len)
-			champion.name = champion.name + " " + champ_names[champ_names.len]
-		else
-			champion.name = champion.name + " " + champ_names[i]
-		if(places_to_spawn.len > 1)
-			places_to_spawn -= spawn_loc
+	var/champion_path = list(
+		/mob/living/simple_animal/hostile/hivemind/champion/noble,
+		/mob/living/simple_animal/hostile/hivemind/champion/gladiator,
+		/mob/living/simple_animal/hostile/hivemind/champion/sorcerer,
+		/mob/living/simple_animal/hostile/megafauna/hivemind_tyrant
+	)
+	var/turf/spawn_loc = pick(places_to_spawn)
+	new champion_path(spawn_loc)
 	playsound(master, 'sound/effects/teleport.ogg', 80, 1)
-	champion.say(pick("You shall be destroyed!", "Fear me!", "Face me!", "You have lived for far too long!", "Die vermin!", "Fight me insect!", "There is no escape!"))
 	
 
 //EMERGENCY JUMP

@@ -1647,6 +1647,7 @@
 #include "code\modules\goonchat\assets.dm"
 #include "code\modules\goonchat\browserOutput.dm"
 #include "code\modules\goonchat\helpers.dm"
+#include "code\modules\hivemind\champion.dm"
 #include "code\modules\hivemind\core.dm"
 #include "code\modules\hivemind\machines.dm"
 #include "code\modules\hivemind\mobs.dm"

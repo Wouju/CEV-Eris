@@ -250,3 +250,26 @@
 				continue
 			H.adjustBruteLoss(-healing_power)
 			H.adjustFireLoss(-healing_power)
+
+/datum/perk/oddity/hive_born
+	name = "Hive Born"
+	desc = "You feel electricty flow within your body to your hands. You can recharge powercells in your active hand."
+	icon_state = "circuitry"  //https://game-icons.net/1x1/lorc/circuitry.html
+	gain_text = "You feel something injected into you, and with it a painfully pleaseant feeling of being improved by the hivemind."
+	var/cooldown = 1 SECONDS
+	var/initial_time
+	var/obj/item/weapon/cell/C
+
+/datum/perk/oddity/hive_born/assign(mob/living/carbon/human/H)
+	..()
+	initial_time = world.time
+
+/datum/perk/oddity/hive_born/on_process()
+	if(!..())
+		return
+	if(world.time < initial_time + cooldown)
+		return
+	initial_time = world.time
+	if(holder.get_active_hand())
+		if(!C.fully_charged())
+			C.give(25)

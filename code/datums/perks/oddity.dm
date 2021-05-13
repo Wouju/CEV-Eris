@@ -253,10 +253,10 @@
 
 /datum/perk/oddity/hive_born
 	name = "Hive Born"
-	desc = "You feel electricty flow within your body to your hands. You can recharge powercells in your active hand."
+	desc = "You feel electricty flow within your body to your hands. Powercells recharge in your hands."
 	icon_state = "circuitry"  //https://game-icons.net/1x1/lorc/circuitry.html
-	gain_text = "You feel something injected into you, and with it a painfully pleaseant feeling of being improved by the hivemind."
-	var/cooldown = 1 SECONDS
+	gain_text = "You feel a stabbing pain of something being injected into you, and with it a painfully pleaseant feeling of being improved."
+	var/cooldown = 10 SECONDS
 	var/initial_time
 	var/obj/item/weapon/cell/C
 
@@ -270,6 +270,11 @@
 	if(world.time < initial_time + cooldown)
 		return
 	initial_time = world.time
-	if(holder.get_active_hand())
+	if((holder.l_hand && holder.l_hand != src && istype(holder.l_hand, /obj/item/weapon/cell)))
+		C = holder.l_hand
 		if(!C.fully_charged())
-			C.give(25)
+			C.give(50)
+	if((holder.r_hand && holder.r_hand != src && istype(holder.r_hand, /obj/item/weapon/cell)))
+		C = holder.r_hand
+		if(!C.fully_charged())
+			C.give(50)
